@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /*网页设置*/
+        body {
+            margin: 0px;
+            min-width: 250px;
+        }
+
+        *{
+            box-sizing: border-box;
+        }
+
+        /*头部设置*/
+        #header {
+            padding: 30px 40px;
+            background-color: tomato;
+            text-align: center;
+            color:white;
+        }
+
+        /*头部以下取消悬浮*/
+        #header::after{
+            content:"";
+            display: table;
+            clear: both;
+        }
+
+        /*输入框设置*/
+        input {
+            border: solid 3px rgb(117, 119, 34);
+            margin: 0px;
+            padding: 10px;
+            width: 75%;
+            float: left;
+            border-radius: 0;
+            font-size: 16px;
+        }
+
+        /*Add按钮设置*/
+        #addBtn {
+            margin: 0px;
+            padding: 10px;
+            width: 25%;
+            float: left;
+            border-radius: 0;
+            font-size: 20px;
+            color: rgb(15, 14, 14);
+            background-color: rgb(218, 190, 154);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        /* Add按钮变色 */
+        #addBtn:hover{
+            background-color: chocolate;
+        }
+
+        /* ul设置 */
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* li属性设置 */
+        ul li {
+            position: relative;
+            padding: 12px 12px 12px 40px;
+            border: solid 1px rgb(139, 151, 112);
+            background-color: darkgray;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        /* 奇数行不同颜色 会出现错误*/
+        /*ul li:nth-child(odd){
+            background-color: rgb(127, 129, 126);
+        }*/
+
+        /* 鼠标悬浮颜色变化 */
+        ul li:hover{
+            background-color: lightblue;
+        }
+
+        /* checked状态设置 */
+        .checked{
+            color: rgb(0, 128, 0);
+            background-color: rgb(116, 138, 127);
+            text-decoration: line-through;
+        }
+
+        /* checked 标记 */
+        .checked::before{
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 16px;
+            border: rgb(0, 128, 0);
+            border-style: solid;
+            border-width: 0 2px 2px 0;
+            width:10px;
+            height:18px;
+            transform: rotate(45deg);   
+        }
+
+        /* close设置 */
+        .close{
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 12px 20px 12px 20px;
+        }
+
+        /* close悬浮变色 */
+        .close:hover{
+            background-color: rgb(32, 30, 30);
+            color: rgb(233, 221, 221);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id='header'>
+        <h2>Yan's To Do List</h2>
+        <input type="text" id="myInput" placeholder="what are you going to do?">
+        <span onclick=addElement() id='addBtn'>Add</span>
+    </div>
+
+    <ul id="myUL">
+        <li>学习</li>
+        <li>读书</li>
+        <li class="checked">工作</li>
+        <li>运动</li>
+        <li>玩游戏</li>
+        <li>看视频</li>
+    </ul>
+
+    <Script>
+
+        //向每一行末尾添加close
+        var myListnode=document.getElementsByTagName("LI");
+        for(var i=0;i<myListnode.length;i++){
+            var span=document.createElement('SPAN');
+            var t=document.createTextNode("\u00D7");
+            span.className="close";
+            span.appendChild(t);
+            myListnode[i].appendChild(span);
+        }
+
+        // 点击close隐藏当前元素(i确定当前元素，否则为全部)
+        var close=document.getElementsByClassName('close');
+        var i;
+        for(i=0;i<close.length;i++){
+            close[i].onclick=function(){
+                var div=this.parentElement;
+                div.style.display="none";
+            }
+        }
+
+        // 点击 切换checked状态
+        var list=document.querySelector('ul');
+        list.addEventListener('click', function(event){
+            if (event.target.tagName==='LI'){
+                event.target.classList.toggle('checked');
+            }
+        });
+
+        // Add新的内容
+        function addElement(){
+        var lis=document.createElement("LI");
+        var myInputValue=document.getElementById("myInput").value;
+        var txt=document.createTextNode(myInputValue);
+        lis.appendChild(txt);
+        if(myInputValue===""){
+            alert("You must write something")
+        }
+        else {document.getElementById("myUL").appendChild(lis);
+        }
+
+        document.getElementById("myInput").value="";//输入框恢复默认值
+
+        var span=document.createElement('SPAN');//向新内容添加close
+        var t=document.createTextNode("\u00D7");
+        span.className="close";
+        span.appendChild(t);
+        lis.appendChild(span);
+
+        var close=document.getElementsByClassName('close');//点击close隐藏当前元素
+        var i;
+        for(i=0;i<close.length;i++){
+            close[i].onclick=function(){
+                var div=this.parentElement;
+                div.style.display="none";
+            }
+        }
+
+        }
+
+    </Script>
+
+</body>
+</html>
+
